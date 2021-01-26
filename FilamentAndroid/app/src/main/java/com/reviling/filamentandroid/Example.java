@@ -18,18 +18,24 @@ public class Example extends AppCompatActivity {
         surfaceView = (SurfaceView) findViewById(R.id.surface);
         customViewer = new CustomViewer();
         customViewer.loadEntity();
-        customViewer.setSurfaceView(this, surfaceView);
+        customViewer.setSurfaceView(surfaceView);
 
-        customViewer.loadGlb(this, "grogu/grogu");
-//        customViewer.loadGltf(this, "peresozo_sale");
-//        customViewer.loadEnviroment(this,"venetian_crossroads_2k");
+        //directory and model each as param
+        customViewer.loadGlb(this, "grogu", "grogu");
+//        customViewer.loadGltf(this, "warcraft", "scene");
+
+        //directory and model as one
+//        customViewer.loadGlb(this, "grogu/grogu");
+
+        //Enviroments and Lightning (OPTIONAL)
+        customViewer.loadIndirectLight(this,"venetian_crossroads_2k");
+//        customViewer.loadEnviroment(this, "venetian_crossroads_2k");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         customViewer.onResume();
-
     }
 
     @Override

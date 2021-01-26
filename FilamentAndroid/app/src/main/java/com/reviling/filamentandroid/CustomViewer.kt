@@ -26,10 +26,12 @@ class CustomViewer
         choreographer = Choreographer.getInstance()
     }
 
-    fun setSurfaceView(context: Context, mSurfaceView: SurfaceView)
+    fun setSurfaceView(mSurfaceView: SurfaceView)
     {
         modelViewer = ModelViewer(mSurfaceView)
         mSurfaceView.setOnTouchListener(modelViewer)
+
+        //Skybox and background color
         //without this part the scene'll appear broken
         modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
         modelViewer.scene.skybox!!.setColor(1.0f, 1.0f, 1.0f, 1.0f)//White color
@@ -41,29 +43,49 @@ class CustomViewer
         modelViewer.loadModelGlb(buffer)
         modelViewer.transformToUnitCube()
     }
-
-    fun loadGltf(context: Context, name: String)
+    fun loadGlb(context:Context, dirName: String, name: String)
     {
-        //val buffer = readAsset("modelsd/${name}.gltf")
-        val buffer = context.assets.open("model/${name}.gltf").use { input ->
+        val buffer = readAsset(context, "model/${dirName}/${name}.glb")
+        modelViewer.loadModelGlb(buffer)
+        modelViewer.transformToUnitCube()
+    }
+
+//    fun loadGltf(context: Context, name: String)
+//    {
+//        val buffer = context.assets.open("model/${name}.gltf").use { input ->
+//            val bytes = ByteArray(input.available())
+//            input.read(bytes)
+//            ByteBuffer.wrap(bytes)
+//        }
+//        modelViewer.loadModelGltf(buffer){ uri -> readAsset(context, "model/$uri") }
+//        modelViewer.transformToUnitCube()
+//    }
+
+    fun loadGltf(context: Context, dirName: String, name: String)
+    {
+        val buffer = context.assets.open("model/${dirName}/${name}.gltf").use { input ->
             val bytes = ByteArray(input.available())
             input.read(bytes)
             ByteBuffer.wrap(bytes)
         }
-        modelViewer.loadModelGltf(buffer){ uri -> readAsset(context, "model/$uri") }
+        modelViewer.loadModelGltf(buffer){ uri -> readAsset(context, "model/${dirName}/$uri") }
         modelViewer.transformToUnitCube()
     }
 
-    fun loadEnviroment(context: Context, ibl: String)
+    fun loadIndirectLight(context: Context, ibl: String)
     {
         // Create the indirect light source and add it to the scene.
-        var buffer = readAsset(context, "envs/venetian_crossroads_2k/${ibl}_ibl.ktx")
+        var buffer = readAsset(context, "enviroments/venetian_crossroads_2k/${ibl}_ibl.ktx")
         KtxLoader.createIndirectLight(modelViewer.engine, buffer).apply {
             intensity = 50_000f
             modelViewer.scene.indirectLight = this
         }
+    }
+
+    fun loadEnviroment(context: Context, ibl: String)
+    {
         // Create the sky box and add it to the scene.
-        buffer = readAsset(context, "envs/venetian_crossroads_2k/${ibl}_skybox.ktx")
+        var buffer = readAsset(context, "enviroments/venetian_crossroads_2k/${ibl}_skybox.ktx")
         KtxLoader.createSkybox(modelViewer.engine, buffer).apply {
             modelViewer.scene.skybox = this
         }
