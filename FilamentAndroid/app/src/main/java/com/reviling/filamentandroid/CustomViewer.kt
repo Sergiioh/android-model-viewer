@@ -12,7 +12,7 @@ import java.nio.ByteBuffer
 class CustomViewer {
     companion object {
         init {
-            Utils.init();
+            Utils.init()
         }
     }
 
@@ -45,16 +45,15 @@ class CustomViewer {
         modelViewer.transformToUnitCube()
     }
 
-//    fun loadGltf(context: Context, name: String)
-//    {
-//        val buffer = context.assets.open("model/${name}.gltf").use { input ->
-//            val bytes = ByteArray(input.available())
-//            input.read(bytes)
-//            ByteBuffer.wrap(bytes)
-//        }
-//        modelViewer.loadModelGltf(buffer){ uri -> readAsset(context, "model/$uri") }
-//        modelViewer.transformToUnitCube()
-//    }
+    fun loadGltf(context: Context, name: String) {
+        val buffer = context.assets.open("model/${name}.gltf").use { input ->
+            val bytes = ByteArray(input.available())
+            input.read(bytes)
+            ByteBuffer.wrap(bytes)
+        }
+        modelViewer.loadModelGltf(buffer) { uri -> readAsset(context, "model/$uri") }
+        modelViewer.transformToUnitCube()
+    }
 
     fun loadGltf(context: Context, dirName: String, name: String) {
         val buffer = context.assets.open("model/${dirName}/${name}.gltf").use { input ->
@@ -91,10 +90,10 @@ class CustomViewer {
     }
 
     private val frameCallback = object : Choreographer.FrameCallback {
-        //        override fun doFrame(currentTime: Long) {
-//            choreographer.postFrameCallback(this)
-//            modelViewer.render(currentTime)
-//        }
+        /* override fun doFrame(currentTime: Long) {
+             choreographer.postFrameCallback(this)
+             modelViewer.render(currentTime)
+         }*/
         private val startTime = System.nanoTime()
         override fun doFrame(currentTime: Long) {
             val seconds = (currentTime - startTime).toDouble() / 1_000_000_000

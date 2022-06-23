@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             //loadGlb(this, "grogu/grogu");
 
             //Enviroments and Lightning (OPTIONAL)
-            customViewer.loadIndirectLight(this@MainActivity, "venetian_crossroads_2k")
+            loadIndirectLight(this@MainActivity, "venetian_crossroads_2k")
             //loadEnviroment(this, "venetian_crossroads_2k");
         }
     }
