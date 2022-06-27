@@ -34,13 +34,13 @@ class CustomViewer {
     }
 
     fun loadGlb(context: Context, name: String) {
-        val buffer = readAsset(context, "model/${name}.glb")
+        val buffer = readAsset(context, "models/${name}.glb")
         modelViewer.loadModelGlb(buffer)
         modelViewer.transformToUnitCube()
     }
 
     fun loadGlb(context: Context, dirName: String, name: String) {
-        val buffer = readAsset(context, "model/${dirName}/${name}.glb")
+        val buffer = readAsset(context, "models/${dirName}/${name}.glb")
         modelViewer.loadModelGlb(buffer)
         modelViewer.transformToUnitCube()
     }
@@ -51,23 +51,23 @@ class CustomViewer {
             input.read(bytes)
             ByteBuffer.wrap(bytes)
         }
-        modelViewer.loadModelGltf(buffer) { uri -> readAsset(context, "model/$uri") }
+        modelViewer.loadModelGltf(buffer) { uri -> readAsset(context, "models/$uri") }
         modelViewer.transformToUnitCube()
     }
 
     fun loadGltf(context: Context, dirName: String, name: String) {
-        val buffer = context.assets.open("model/${dirName}/${name}.gltf").use { input ->
+        val buffer = context.assets.open("models/${dirName}/${name}.gltf").use { input ->
             val bytes = ByteArray(input.available())
             input.read(bytes)
             ByteBuffer.wrap(bytes)
         }
-        modelViewer.loadModelGltf(buffer) { uri -> readAsset(context, "model/${dirName}/$uri") }
+        modelViewer.loadModelGltf(buffer) { uri -> readAsset(context, "models/${dirName}/$uri") }
         modelViewer.transformToUnitCube()
     }
 
     fun loadIndirectLight(context: Context, ibl: String) {
         // Create the indirect light source and add it to the scene.
-        var buffer = readAsset(context, "enviroments/venetian_crossroads_2k/${ibl}_ibl.ktx")
+        var buffer = readAsset(context, "environments/venetian_crossroads_2k/${ibl}_ibl.ktx")
         KTXLoader.createIndirectLight(modelViewer.engine, buffer).apply {
             intensity = 50_000f
             modelViewer.scene.indirectLight = this
@@ -76,7 +76,7 @@ class CustomViewer {
 
     fun loadEnviroment(context: Context, ibl: String) {
         // Create the sky box and add it to the scene.
-        var buffer = readAsset(context, "enviroments/venetian_crossroads_2k/${ibl}_skybox.ktx")
+        var buffer = readAsset(context, "environments/venetian_crossroads_2k/${ibl}_skybox.ktx")
         KTXLoader.createSkybox(modelViewer.engine, buffer).apply {
             modelViewer.scene.skybox = this
         }
