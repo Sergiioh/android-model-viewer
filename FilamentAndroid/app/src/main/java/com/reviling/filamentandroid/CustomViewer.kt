@@ -30,19 +30,23 @@ class CustomViewer {
         //Skybox and background color
         //without this part the scene'll appear broken
         modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
-        modelViewer.scene.skybox!!.setColor(1.0f, 1.0f, 1.0f, 1.0f)//White color
+        modelViewer.scene.skybox?.setColor(1.0f, 1.0f, 1.0f, 1.0f) //White color
     }
 
     fun loadGlb(context: Context, name: String) {
         val buffer = readAsset(context, "models/${name}.glb")
-        modelViewer.loadModelGlb(buffer)
-        modelViewer.transformToUnitCube()
+        modelViewer.apply {
+            loadModelGlb(buffer)
+            transformToUnitCube()
+        }
     }
 
     fun loadGlb(context: Context, dirName: String, name: String) {
         val buffer = readAsset(context, "models/${dirName}/${name}.glb")
-        modelViewer.loadModelGlb(buffer)
-        modelViewer.transformToUnitCube()
+        modelViewer.apply {
+            loadModelGlb(buffer)
+            transformToUnitCube()
+        }
     }
 
     fun loadGltf(context: Context, name: String) {
@@ -51,8 +55,10 @@ class CustomViewer {
             input.read(bytes)
             ByteBuffer.wrap(bytes)
         }
-        modelViewer.loadModelGltf(buffer) { uri -> readAsset(context, "models/$uri") }
-        modelViewer.transformToUnitCube()
+        modelViewer.apply {
+            loadModelGltf(buffer) { uri -> readAsset(context, "models/$uri") }
+            transformToUnitCube()
+        }
     }
 
     fun loadGltf(context: Context, dirName: String, name: String) {
@@ -61,8 +67,10 @@ class CustomViewer {
             input.read(bytes)
             ByteBuffer.wrap(bytes)
         }
-        modelViewer.loadModelGltf(buffer) { uri -> readAsset(context, "models/${dirName}/$uri") }
-        modelViewer.transformToUnitCube()
+        modelViewer.apply {
+            loadModelGltf(buffer) { uri -> readAsset(context, "models/${dirName}/$uri") }
+            transformToUnitCube()
+        }
     }
 
     fun loadIndirectLight(context: Context, ibl: String) {
@@ -90,10 +98,6 @@ class CustomViewer {
     }
 
     private val frameCallback = object : Choreographer.FrameCallback {
-        /* override fun doFrame(currentTime: Long) {
-             choreographer.postFrameCallback(this)
-             modelViewer.render(currentTime)
-         }*/
         private val startTime = System.nanoTime()
         override fun doFrame(currentTime: Long) {
             val seconds = (currentTime - startTime).toDouble() / 1_000_000_000
