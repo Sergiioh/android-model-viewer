@@ -21,14 +21,14 @@ class MainActivity : AppCompatActivity() {
 
             //directory and model each as param
             loadGlb(this@MainActivity, "grogu", "grogu")
-            //loadGltf(this, "warcraft", "scene");
+            //loadGltf(this@MainActivity, "warcraft", "scene");
 
             //directory and model as one
-            //loadGlb(this, "grogu/grogu");
+            //loadGlb(this@MainActivity, "grogu/grogu");
 
             //Enviroments and Lightning (OPTIONAL)
             loadIndirectLight(this@MainActivity, "venetian_crossroads_2k")
-            //loadEnviroment(this, "venetian_crossroads_2k");
+            //loadEnviroment(this@MainActivity, "venetian_crossroads_2k");
         }
     }
 
