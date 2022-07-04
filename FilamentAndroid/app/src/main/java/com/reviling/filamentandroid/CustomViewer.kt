@@ -46,7 +46,7 @@ class CustomViewer {
     }
 
     fun loadGltf(context: Context, name: String) {
-        val buffer = context.assets.open("model/${name}.gltf").use { input ->
+        val buffer = context.assets.open("models/${name}.gltf").use { input ->
             val bytes = ByteArray(input.available())
             input.read(bytes)
             ByteBuffer.wrap(bytes)
@@ -67,7 +67,7 @@ class CustomViewer {
 
     fun loadIndirectLight(context: Context, ibl: String) {
         // Create the indirect light source and add it to the scene.
-        var buffer = readAsset(context, "environments/venetian_crossroads_2k/${ibl}_ibl.ktx")
+        val buffer = readAsset(context, "environments/venetian_crossroads_2k/${ibl}_ibl.ktx")
         KTXLoader.createIndirectLight(modelViewer.engine, buffer).apply {
             intensity = 50_000f
             modelViewer.scene.indirectLight = this
@@ -76,7 +76,7 @@ class CustomViewer {
 
     fun loadEnviroment(context: Context, ibl: String) {
         // Create the sky box and add it to the scene.
-        var buffer = readAsset(context, "environments/venetian_crossroads_2k/${ibl}_skybox.ktx")
+        val buffer = readAsset(context, "environments/venetian_crossroads_2k/${ibl}_skybox.ktx")
         KTXLoader.createSkybox(modelViewer.engine, buffer).apply {
             modelViewer.scene.skybox = this
         }
